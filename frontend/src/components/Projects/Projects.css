@@ -1,0 +1,20 @@
+.Chart-Container {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.Container {
+  height: 100vh;
+}
+.Task-Container {
+  width: 20vw;
+}
+.react-datepicker-wrapper {
+  display: block !important;
+}
+.Create-Project {
+  width: 25vw;
+}
+.fullHeight {
+  height: 100vh;
+}

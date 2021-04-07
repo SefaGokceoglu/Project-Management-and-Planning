@@ -1,0 +1,69 @@
+.Sidepanel {
+  min-width: 400px;
+  min-height: 100vh;
+  border-right: 1px solid #343a40;
+}
+.Group {
+  cursor: pointer;
+}
+.Group :hover {
+  background-color: rgb(73, 73, 73);
+  color: white;
+}
+.Group :active {
+  color: rgb(255, 119, 51);
+}
+.Group p {
+  margin: 0;
+  padding: 3%;
+}
+.Chat-Select {
+  cursor: pointer;
+}
+.Chat-Select :hover {
+  background-color: rgb(73, 73, 73);
+  color: rgb(255, 119, 51);
+}
+.Chat-Select :active {
+  color: white;
+}
+
+.Message-Select :hover {
+  color: rgb(255, 119, 51);
+}
+.Chat-Select :active {
+  color: white;
+}
+
+.Orange {
+  color: rgb(255, 119, 51) !important;
+}
+
+.Collapsible-SimpleBar {
+  max-height: 300px;
+}
+.Chat-Container {
+  display: flex;
+}
+.Sidepanel {
+  flex: 10%;
+}
+.Chat {
+  flex: 90%;
+  background-color: lightgrey;
+}
+.Chat-Header {
+  min-height: 5rem;
+}
+.Chat-Messages-Container {
+  height: 70vh;
+  overflow-y: scroll;
+}
+
+.Message-Sended {
+  background-color: rgb(167, 236, 128);
+}
+
+.Message-Recieved {
+  background-color: lightgrey;
+}

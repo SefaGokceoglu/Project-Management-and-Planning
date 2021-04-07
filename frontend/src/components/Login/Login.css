@@ -1,0 +1,17 @@
+.Login{
+    height: fit-content;
+    margin: auto;
+    margin-top: 14%;
+    width: fit-content;
+    padding: 3%;
+}
+.Submit-Button{
+    background-color: #ff7733 !important;
+}
+.Submit-Button:hover{
+    background-color: #ff5500 !important;
+    color:  white !important;
+}
+.Login-Form div p a{
+    color: #ff7733
+}

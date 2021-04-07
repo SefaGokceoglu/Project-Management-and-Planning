@@ -1,0 +1,10 @@
+.dropdown-menu{
+    min-width: 0px !important;
+}
+.dropdown-item.active{
+    color:black !important;
+}
+.dropdown-item:hover{
+    color: rgb(255, 119, 51) !important ;
+    background-color: inherit !important;
+}

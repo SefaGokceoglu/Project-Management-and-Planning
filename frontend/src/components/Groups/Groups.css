@@ -1,0 +1,57 @@
+.MyGroups {
+  flex: 35%;
+  margin: 2%;
+}
+.MyGroups .SimpleBar {
+  height: 400px;
+  padding: 5%;
+  margin: 5%;
+}
+.MyGroups p {
+  margin: 0;
+}
+.MyGroups .btn:focus {
+  box-shadow: none !important;
+}
+.MyGroups .btn:hover {
+  color: white !important;
+}
+.AllGroups .btn:hover {
+  color: white !important;
+}
+.AllGroups .btn:focus {
+  box-shadow: none !important;
+}
+.MyGroups hr {
+  border-top: 3px solid rgba(0, 0, 0, 0.1) !important;
+}
+.btn-section {
+  font-size: 25px;
+  background-color: rgb(26, 26, 26);
+}
+.Group-Container {
+  display: flex;
+}
+.AllGroups {
+  height: 500px;
+  flex: 65%;
+  margin: 2%;
+}
+.AllGroups p {
+  margin: 0;
+}
+.AllGroups hr {
+  border-top: 3px solid rgba(0, 0, 0, 0.1) !important;
+}
+.popup-content {
+  width: fit-content !important;
+  color: rgb(255, 119, 51) !important;
+  background-color: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+.Create-group {
+  color: white !important;
+  width: 450px !important;
+}
