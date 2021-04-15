@@ -2,10 +2,15 @@ import React, { useState, useEffect, useRef } from "react";
 import Chart from "react-google-charts";
 import axios from "axios";
 import TaskForm from "../TaskForm/TaskForm";
-import TaskSelect from "../TaskSelect/TaskSelect";
+import SaveIcon from "@material-ui/icons/Save";
+import ReplayIcon from "@material-ui/icons/Replay";
+import DeleteIcon from "@material-ui/icons/Delete";
 function Project({ SelectedProject }) {
   const [Loading, setLoading] = useState(true);
   const [Project, setProject] = useState("");
+
+  const [UpdateTask, setUpdateTask] = useState("");
+
   const DataSchema = [
     { type: "string", label: "Task ID" },
     { type: "string", label: "Task Name" },
@@ -24,38 +29,20 @@ function Project({ SelectedProject }) {
 
     if (response && response.data) {
       setProject(response.data);
-      if (response.data.SelectedProject.data.length === 0) {
-        const GetData = response.data.SelectedProject.data;
-        const DataFromDb = GetData.map((data) => {
-          return [
-            data.TaskName,
-            data.TaskName,
-            data.Resource,
-            new Date(data.StartDate),
-            new Date(data.EndDate),
-            null,
-            data.Percent,
-            data.Dependencies,
-          ];
-        });
-        setData(DataFromDb);
-      } else {
-        const DataFromDb = response.data.SelectedProject.data;
-        console.log(DataFromDb);
-        const ArrayData = DataFromDb.map((data) => {
-          return [
-            data.TaskName,
-            data.TaskName,
-            data.Resource,
-            new Date(data.StartDate),
-            new Date(data.EndDate),
-            null,
-            data.Percent,
-            data.Dependencies,
-          ];
-        });
-        setData(ArrayData);
-      }
+      const GetData = response.data.SelectedProject.data;
+      const DataFromDb = GetData.map((data) => {
+        return [
+          data.TaskName,
+          data.TaskName,
+          data.Resource,
+          new Date(data.StartDate),
+          new Date(data.EndDate),
+          null,
+          data.Percent,
+          data.Dependencies,
+        ];
+      });
+      setData(DataFromDb);
     }
 
     setLoading(false);
@@ -87,12 +74,12 @@ function Project({ SelectedProject }) {
     );
   } else {
     return (
-      <div className="Container bg-secondary">
-        <div className="Chart-Container bg-secondary">
+      <div className="Container bg-secondary d-flex justify-content-center align-items-center">
+        <div className="Chart-Container d-flex justify-content-center align-items-center bg-secondary ">
           {Data.length > 0 ? (
             <Chart
               height={`${Data.length * 200}px`}
-              width={"100%"}
+              width={"90%"}
               chartType="Gantt"
               loader={
                 <div className="d-flex justify-content-center">
@@ -139,14 +126,34 @@ function Project({ SelectedProject }) {
             Team={Project.Team}
             Project={Project.SelectedProject}
           />
-          <div className="Projects-Container bg-secondary "></div>
-          <div className="Tasks-Container bg-secondary">
-            <div>
-              <button className="btn btn-success" onClick={SaveData}>
-                Save Chart
+          <div className="Button-Container bg-secondary">
+            <div className="m-5">
+              <button
+                className="Project-Data-Button btn btn-success d-flex justify-content-center align-items-center"
+                onClick={SaveData}
+              >
+                <SaveIcon className="m-2" />
+                <p className="m-0">Save Chart</p>
               </button>
-              <button className="btn btn-warning" onClick={Undo}>
-                Undo Last
+            </div>
+            <div className="m-5">
+              <button
+                className="Project-Data-Button btn btn-warning d-flex justify-content-center align-items-center"
+                onClick={Undo}
+              >
+                <ReplayIcon className="m-2" />
+                <p className="m-0">Undo Last</p>
+              </button>
+            </div>
+            <div className="m-5">
+              <button
+                className="Project-Data-Button btn btn-danger d-flex justify-content-center align-items-center"
+                onClick={() => {
+                  setData([]);
+                }}
+              >
+                <DeleteIcon className="m-2" />
+                <p className="m-0">Delete Chart</p>
               </button>
             </div>
           </div>

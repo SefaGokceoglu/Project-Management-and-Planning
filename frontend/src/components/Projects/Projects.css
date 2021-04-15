@@ -1,13 +1,16 @@
 .Chart-Container {
-  width: 90%;
-  margin: 0 auto;
+  width: 50%;
+  padding-top: 10%;
 }
 
 .Container {
   height: 100vh;
 }
 .Task-Container {
-  width: 20vw;
+  width: 24vw;
+}
+.Button-Container {
+  margin-right: 20%;
 }
 .react-datepicker-wrapper {
   display: block !important;
@@ -17,4 +20,10 @@
 }
 .fullHeight {
   height: 100vh;
+}
+.Project-Data-Button {
+  width: 7vw;
+}
+.Leave-Project {
+  width: 20vw;
 }

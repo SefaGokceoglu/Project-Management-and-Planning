@@ -3,11 +3,11 @@ import { Link, Redirect } from "react-router-dom";
 import CloseIcon from "@material-ui/icons/Close";
 import axios from "axios";
 import "./Login.css";
+import alertify from "alertifyjs";
 function Login({ User, setUser }) {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
 
-  const [Error, setError] = useState("");
   const SubmitHandler = async (e) => {
     e.preventDefault();
 
@@ -19,17 +19,19 @@ function Login({ User, setUser }) {
     const response = await axios
       .post("http://localhost:7000/users/login", user)
       .catch((err) => {
-        setError(err.response.data.msg);
+        alertify.set("notifier", "position", "top-center");
+        alertify.error(err.response.data.msg);
       });
 
     if (response && response.data) {
+      alertify.notify("Successfully Loged In", "success", 5);
       sessionStorage.setItem(
         "username",
         response.data.name + " " + response.data.lastname
       );
 
       setUser(response.data.name + " " + response.data.lastname);
-      return <Redirect exact to="/" />;
+      //return <Redirect exact to="/" />;
     }
   };
   if (!User) {
@@ -37,23 +39,6 @@ function Login({ User, setUser }) {
       <div className="Login d-flex justify-content-center align-items-center shadow bg-white rounded">
         <form className="Login-Form mb-1">
           <h1 className="text-center mb-3">SIGN IN</h1>
-          {Error ? (
-            <div
-              className="alert alert-warning d-flex justify-content-between align-items-center"
-              role="alert"
-            >
-              {Error}
-              <button
-                type="button"
-                className="close btn"
-                data-bs-dismiss="alert"
-                aria-label="Close"
-                onClick={() => setError("")}
-              >
-                <CloseIcon />
-              </button>
-            </div>
-          ) : null}
           <div className="mb-4">
             <label htmlFor="exampleInputEmail1" class="form-label">
               Email address

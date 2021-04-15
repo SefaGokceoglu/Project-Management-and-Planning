@@ -49,10 +49,10 @@ io.on("connection", (socket) => {
   });
 });
 
-app.use((request, response, next) => {
+/*app.use((request, response, next) => {
   request.io = io;
   next();
-});
+});*/
 
 mongoose.connect(
   process.env.MONGO_CONNECTION,

@@ -105,11 +105,9 @@ router.post("/:destinationUser", auth, async (req, res) => {
     sendedBy,
   });
   /*
-
   io.on("connection", function (socket) {
     socket.to(alreadyChat._id).emit("NewMessage", newMessage);
   });
-
   */
   await newMessage.save();
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SimpleBar from "simplebar-react";
 import Popup from "reactjs-popup";
 import axios from "axios";
@@ -20,7 +20,8 @@ function Sidepanel({
   setNewChat,
 }) {
   const [SayHi, setSayHi] = useState("");
-
+  const [AccountLink, setAccountLink] = useState("-");
+  let link = "";
   const SendMessageHandler = async (sendedToID) => {
     const response = await axios.post(
       "http://localhost:7000/message/" + sendedToID,
@@ -32,7 +33,19 @@ function Sidepanel({
       setNewChat(response.data);
     }
   };
+  useEffect(() => {
+    async function GetUserLink() {
+      const response = await axios.get(
+        "http://localhost:7000/users/account/link"
+      );
 
+      if (response && response.data) {
+        console.log(response.data);
+        setAccountLink(response.data);
+      }
+    }
+    GetUserLink();
+  }, []);
   return (
     <div className="Groups">
       <div className="d-flex align-items-center justify-content-between p-3 border-bottom border-dark ">
@@ -43,9 +56,11 @@ function Sidepanel({
           />
           <h3 className="m-0">{User}</h3>
         </div>
-        <Link to="/Account" className="mr-3">
-          <AccountCircleIcon fontSize="large" />
-        </Link>
+        {AccountLink !== "" ? (
+          <Link to={AccountLink} className="mr-3">
+            <AccountCircleIcon fontSize="large" />
+          </Link>
+        ) : null}
       </div>
       <div className="accordion" id="accordionGroups">
         <div className="card bg-secondary">

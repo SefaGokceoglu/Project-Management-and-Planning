@@ -17,10 +17,12 @@ function TaskForm({ Loading, Data, setData, Team, Project }) {
   const [Dependencies, setDependencies] = useState([]);
   const [Percent, setPercent] = useState(0);
 
-  const [UptadeTask, setUptadeTask] = useState("");
+  const [UpdateTask, setUpdateTask] = useState("");
 
   const AddTaskHandler = async (e) => {
+    console.log(Data);
     e.preventDefault();
+
     const Resources = Resource.map((person) => {
       return person.value;
     });
@@ -39,7 +41,17 @@ function TaskForm({ Loading, Data, setData, Team, Project }) {
       DependenciesString.toString(),
     ];
     if (StartDate !== EndDate && TaskName !== "") {
-      setData([...Data, NewTask]);
+      if (UpdateTask !== "") {
+        const newData = Data.map((task) => {
+          if (task[0] === UpdateTask) {
+            task = NewTask;
+          }
+          return task;
+        });
+        setData(newData);
+      } else {
+        setData([...Data, NewTask]);
+      }
     }
   };
 
@@ -51,21 +63,34 @@ function TaskForm({ Loading, Data, setData, Team, Project }) {
   });
 
   useEffect(() => {
-    if (UptadeTask !== "") {
-      const string = "asdaasdas";
-      console.log(string.split(","));
-
+    if (UpdateTask !== "") {
       Data.find((task) => {
-        if (task[0] === UptadeTask) {
-          console.log(task);
+        if (task[0] === UpdateTask) {
           setTaskName(task[0]);
-          task[2] !== ""
-            ? setResource(task[2].split(","))
-            : task[2].includes(",")
-            ? setResource([task[2]])
+          task[2].includes(",")
+            ? setResource(
+                task[2].split(",").map((resource) => {
+                  return { label: resource, value: resource };
+                })
+              )
+            : task[2] !== ""
+            ? setResource([{ label: task[2], value: task[2] }])
             : setResource([]);
+
           setStartDate(new Date(task[3]));
           setEndDate(new Date(task[4]));
+
+          task[7].includes(",")
+            ? setDependencies(
+                task[7].split(",").map((resource) => {
+                  return { label: resource, value: resource };
+                })
+              )
+            : task[7] !== ""
+            ? setDependencies([{ label: task[7], value: task[7] }])
+            : setDependencies([]);
+
+          setPercent(task[6]);
         }
       });
     } else {
@@ -76,7 +101,7 @@ function TaskForm({ Loading, Data, setData, Team, Project }) {
       setDependencies([]);
       setPercent(0);
     }
-  }, [UptadeTask]);
+  }, [UpdateTask]);
 
   if (Loading) {
     return (
@@ -95,10 +120,9 @@ function TaskForm({ Loading, Data, setData, Team, Project }) {
               <div className="form-group">
                 <label htmlFor="SelectUpdateTask">Select Task to Update</label>
                 <select
-                  value={UptadeTask}
+                  value={UpdateTask}
                   onChange={(e) => {
-                    console.log(e.target.value);
-                    setUptadeTask(e.target.value);
+                    setUpdateTask(e.target.value);
                   }}
                   className="form-control"
                   id="SelectUpdateTask"
@@ -111,7 +135,9 @@ function TaskForm({ Loading, Data, setData, Team, Project }) {
               </div>
             ) : null}
           </div>
-          <h2 className="text-center p-2"> TASK FORM</h2>
+          <h2 className="text-center p-2">
+            {UpdateTask ? "UPDATE TAKS" : "ADD TASK"}
+          </h2>
           <form>
             <div className="form-group">
               <label htmlFor="InputTaskName">Task Name</label>
@@ -172,7 +198,7 @@ function TaskForm({ Loading, Data, setData, Team, Project }) {
               </div>
             ) : null}
 
-            <div className="form-group mb-5">
+            <div className="form-group mb-5 ">
               <label htmlFor="InputTaskProgress">Task Progress</label>
               <InputRange
                 className="mb-5"
@@ -185,7 +211,7 @@ function TaskForm({ Loading, Data, setData, Team, Project }) {
               />
             </div>
             <button className="btn btn-secondary" onClick={AddTaskHandler}>
-              Submit
+              {UpdateTask ? "Update Task" : "Add Task"}
             </button>
           </form>
         </div>

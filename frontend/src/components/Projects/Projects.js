@@ -9,6 +9,8 @@ import Project from "./Project/Project";
 import CreateNewFolderIcon from "@material-ui/icons/CreateNewFolder";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import AddIcon from "@material-ui/icons/Add";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import DeleteIcon from "@material-ui/icons/Delete";
 function Projects() {
   const [SelectedProject, setSelectedProject] = useState("");
   const [Projects, setProjects] = useState([]);
@@ -49,16 +51,42 @@ function Projects() {
     }
   };
 
+  const LeaveProject = async () => {
+    const response = await axios.post(
+      `http://localhost:7000/project/leave/${SelectedProject}`
+    );
+    if (response && response.data) {
+      setProjects(
+        Projects.filter((project) => project._id !== response.data._id)
+      );
+      setSelectedProject("");
+    }
+  };
+
+  const DeleteProject = async () => {
+    console.log(SelectedProject);
+    const response = await axios.delete(
+      `http://localhost:7000/project/${SelectedProject}`
+    );
+    if (response && response.data) {
+      setProjects(
+        Projects.filter((project) => project._id !== response.data._id)
+      );
+      setSelectedProject("");
+    }
+  };
+
   return (
     <div className="fullHeight bg-secondary">
       <h1 className="bg-secondary text-center m-0 pt-5">Projects</h1>
       <div className=" d-flex justify-content-around bg-secondary pb-4">
         <div className="form-group bg-secondary  m-0 ">
-          <label htmlFor="SelectProject">Select a Project</label>
+          <h2 htmlFor="SelectProject">Select a Project</h2>
           <select
+            style={{ height: "4vh" }}
             value={SelectedProject.name}
             onChange={SelectProjectHandler}
-            className="form-control"
+            className="form-control mt-4"
             id="SelectProject"
           >
             <option value="">None</option>
@@ -71,7 +99,7 @@ function Projects() {
             })}
           </select>
         </div>
-        <div className="d-flex justify-content-between align">
+        <div className="d-flex justify-content-between align bg-dark rounded shadow">
           <Popup
             modal
             trigger={
@@ -186,21 +214,111 @@ function Projects() {
             </div>
           </Popup>
           {SelectedProject ? (
-            <Popup
-              trigger={
-                <button
-                  className="btn border-0"
-                  style={{ color: "rgb(255, 119, 51)" }}
-                >
-                  <VpnKeyIcon />
-                  <p className="m-0">Invite Key</p>
-                </button>
-              }
-            >
-              <div className="bg-dark rounded px-3 pb-3 pt-3">
-                {SelectedProject}
-              </div>
-            </Popup>
+            <>
+              <Popup
+                trigger={
+                  <button
+                    className="btn border-0"
+                    style={{ color: "rgb(255, 119, 51)" }}
+                  >
+                    <VpnKeyIcon />
+                    <p className="m-0">Invite Key</p>
+                  </button>
+                }
+              >
+                <div className="bg-dark rounded px-3 pb-3 pt-3">
+                  {SelectedProject}
+                </div>
+              </Popup>
+              <Popup
+                modal
+                trigger={
+                  <button
+                    className="btn border-0"
+                    style={{ color: "rgb(255, 119, 51)" }}
+                  >
+                    <ExitToAppIcon />
+                    <p className="m-0">Leave Project</p>
+                  </button>
+                }
+              >
+                {(close) => (
+                  <div className="Leave-Project bg-white shadow rounded mx-3 px-5 pb-5 pt-5">
+                    <h4 className="text-center">Leaving Poject !</h4>
+                    <hr />
+                    <div className="m-5">
+                      <h5 className="mb-3">You are leaving this Project.</h5>
+                      <p>Are you sure you wanna do this ?</p>
+                    </div>
+                    <div className="d-flex justify-content-around align-items-center">
+                      <button
+                        type="button"
+                        className="btn btn-success px-5"
+                        onClick={() => {
+                          LeaveProject();
+                          close();
+                        }}
+                      >
+                        Leave
+                      </button>
+                      <button
+                        className="btn btn-danger px-5"
+                        onClick={() => {
+                          close();
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </Popup>
+              <Popup
+                modal
+                trigger={
+                  <button
+                    className="btn border-0"
+                    style={{ color: "rgb(255, 119, 51)" }}
+                  >
+                    <DeleteIcon />
+                    <p className="m-0">Delete Project</p>
+                  </button>
+                }
+              >
+                {(close) => (
+                  <div className="Delete-Project bg-white shadow rounded mx-3 px-5 pb-5 pt-5">
+                    <h4 className="text-center">Leaving Poject !</h4>
+                    <hr />
+                    <div className="m-5">
+                      <h5 className="mb-3">You are deleting this Project.</h5>
+                      <p>When you delete this Project all Chart is be gone .</p>
+                      <p>Collabrators of this projects is gonna be kicked ,!</p>
+                      <p>Are you sure you wanna do this ?</p>
+                    </div>
+                    <div className="d-flex justify-content-around align-items-center">
+                      <button
+                        type="button"
+                        className="btn btn-success px-5"
+                        onClick={() => {
+                          DeleteProject();
+                          close();
+                        }}
+                      >
+                        Delete
+                      </button>
+                      <button
+                        className="btn btn-danger px-5"
+                        onClick={() => {
+                          close();
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </Popup>
+            </>
           ) : null}
         </div>
       </div>

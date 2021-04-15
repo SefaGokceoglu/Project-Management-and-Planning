@@ -2,7 +2,6 @@ const router = require("express").Router();
 const auth = require("../middleware/auth");
 const User = require("../models/user.model");
 const Project = require("../models/project.model");
-const { rawListeners } = require("../models/user.model");
 
 router.get("/", auth, async (req, res) => {
   const currentUser = req.user;
@@ -101,8 +100,7 @@ router.delete("/:id", auth, async (req, res) => {
 
   const ProjectID = req.params.id;
 
-  const SelectedProject = await Project.findByIdAndDelete(ProjectID);
-
+  const SelectedProject = await Project.findById(ProjectID);
   if (!SelectedProject) {
     return res.status(400).json({ msg: "This project does not exists" });
   }
@@ -110,7 +108,9 @@ router.delete("/:id", auth, async (req, res) => {
     return res.status(400).json({ msg: "You cant delete this project" });
   }
 
-  const Users = await User.find({ project: ProjectID });
+  await Project.findByIdAndDelete(ProjectID);
+
+  const Users = await User.find({ projects: ProjectID });
   Users.forEach((user) => {
     user.projects = user.projects.filter((project) => {
       if (project != ProjectID) {
@@ -123,7 +123,6 @@ router.delete("/:id", auth, async (req, res) => {
   Users.forEach(async (user) => {
     await User.findByIdAndUpdate(user._id, { projects: user.projects });
   });
-
   res.status(200).json(SelectedProject);
 });
 
@@ -137,6 +136,7 @@ router.patch("/save/:id", auth, async (req, res) => {
       Resource: task[2],
       StartDate: task[3],
       EndDate: task[4],
+      Percent: task[6],
       Dependencies: task[7],
     };
   });
@@ -144,7 +144,6 @@ router.patch("/save/:id", auth, async (req, res) => {
   const updatedProject = await Project.findByIdAndUpdate(ProjectID, {
     data: Tasks,
   });
-  console.log(updatedProject);
   res.status(200).json(Tasks);
 });
 

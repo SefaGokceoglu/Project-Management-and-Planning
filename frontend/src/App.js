@@ -11,6 +11,7 @@ import Projects from "./components/Projects/Projects";
 import Register from "./components/Register/Register";
 
 import axios from "axios";
+import UserPage from "./components/UserPage/UserPage";
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -51,6 +52,9 @@ function App() {
           </Route>
           <Route path="/Login">
             <Login User={User} setUser={setUser} />
+          </Route>
+          <Route path="/:user">
+            <UserPage />
           </Route>
         </Switch>
       </div>

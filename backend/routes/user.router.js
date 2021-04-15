@@ -1,5 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/user.model");
+const Group = require("../models/group.model");
+const Project = require("../models/project.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth");
@@ -44,7 +46,6 @@ router.post("/register", async (req, res) => {
     res.status(500).json(error);
   }
 });
-
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -73,12 +74,76 @@ router.get("/logout", async (req, res) => {
 router.get("/", auth, async (req, res) => {
   const currentUser = req.user;
 
-  const UserInfos = await User.find({ _id: { $nin: currentUser } });
+  const UserInfos = await User.find(
+    { _id: { $nin: currentUser } },
+    "name lastname _id"
+  );
 
-  const Users = [];
+  /*const Users = [];
   UserInfos.forEach((user) => {
     Users.push({ name: user.name, lastname: user.lastname, _id: user._id });
   });
-  res.status(200).json(Users);
+  */
+  res.status(200).json(UserInfos);
 });
+router.get("/:id", async (req, res) => {
+  const UserLink = req.params.id.split("-");
+  const UserInfo = await User.findById(
+    UserLink[2],
+    "groups projects name lastname email"
+  );
+  if (!UserInfo) {
+    return res.status(400).json({ msg: " This user dont exists" });
+  }
+  if (
+    UserInfo.name.toLowerCase() !== UserLink[0] ||
+    UserInfo.lastname.toLowerCase() !== UserLink[1]
+  ) {
+    return res.status(400).json({ msg: "This user dont exists" });
+  }
+  const UserGroups = await Group.find(
+    {
+      _id: { $in: UserInfo.groups },
+      private: false,
+    },
+    "name"
+  );
+
+  const Projects = await Project.find(
+    {
+      _id: { $in: UserInfo.projects },
+    },
+    "name createdBy"
+  );
+  const Admins = await Promise.all(
+    Projects.map(async (project) => {
+      return await User.findById(project.createdBy, "name lastname email");
+    })
+  );
+  const ProjectsInfo = Projects.map((value, index) => {
+    return {
+      Project: { name: Projects[index].name, _id: Projects[index]._id },
+      Admin: Admins[index],
+    };
+  });
+
+  res
+    .status(200)
+    .json({ User: UserInfo, Projects: ProjectsInfo, Groups: UserGroups });
+});
+
+router.get("/account/link", auth, async (req, res) => {
+  const currentUser = req.user;
+  const currentUserInfo = await User.findById(currentUser);
+  const link =
+    "/" +
+    currentUserInfo.name.toLowerCase() +
+    "-" +
+    currentUserInfo.lastname.toLowerCase() +
+    "-" +
+    currentUserInfo._id;
+
+  res.status(200).json(link);
+});
+
 module.exports = router;

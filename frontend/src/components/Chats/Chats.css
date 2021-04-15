@@ -59,6 +59,9 @@
   height: 70vh;
   overflow-y: scroll;
 }
+.Chat-Messages-Container::-webkit-scrollbar {
+  display: none;
+}
 
 .Message-Sended {
   background-color: rgb(167, 236, 128);
