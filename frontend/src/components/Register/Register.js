@@ -29,8 +29,12 @@ function Register({ User, setUser }) {
         setError(err.response.data.msg);
       });
     if (response && response.data) {
-      sessionStorage.setItem("username", response.data.name);
-      setUser(response.data.name);
+      sessionStorage.setItem(
+        "username",
+        response.data.name + " " + response.data.lastname
+      );
+
+      setUser(response.data.name + " " + response.data.lastname);
     }
   };
   if (!User) {

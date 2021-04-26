@@ -90,7 +90,7 @@ function AllGroups({
               >
                 <GroupIcon style={{ color: "rgb(255, 119, 51)" }} />
                 <div>
-                  <p>{group.name}</p>
+                  <p className="font-weight-bold">{group.name}</p>
                 </div>
                 <button
                   className="btn p-0"

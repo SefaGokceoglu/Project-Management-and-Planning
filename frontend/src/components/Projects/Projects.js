@@ -157,7 +157,7 @@ function Projects() {
                 <div className="d-flex justify-content-around align-items-center">
                   <button
                     type="button"
-                    className="btn btn-success px-5"
+                    className="btn btn-success px-2"
                     onClick={() => {
                       CreateProject();
                       close();
@@ -166,7 +166,7 @@ function Projects() {
                     Create
                   </button>
                   <button
-                    className="btn btn-danger px-5"
+                    className="btn btn-danger px-2"
                     onClick={() => {
                       close();
                     }}
@@ -253,7 +253,7 @@ function Projects() {
                     <div className="d-flex justify-content-around align-items-center">
                       <button
                         type="button"
-                        className="btn btn-success px-5"
+                        className="btn btn-success px-1"
                         onClick={() => {
                           LeaveProject();
                           close();
@@ -262,7 +262,7 @@ function Projects() {
                         Leave
                       </button>
                       <button
-                        className="btn btn-danger px-5"
+                        className="btn btn-danger px-1"
                         onClick={() => {
                           close();
                         }}
@@ -287,7 +287,7 @@ function Projects() {
               >
                 {(close) => (
                   <div className="Delete-Project bg-white shadow rounded mx-3 px-5 pb-5 pt-5">
-                    <h4 className="text-center">Leaving Poject !</h4>
+                    <h4 className="text-center">Deleting Project !</h4>
                     <hr />
                     <div className="m-5">
                       <h5 className="mb-3">You are deleting this Project.</h5>

@@ -5,7 +5,7 @@ import Chat from "./Chat/Chat";
 import ChatHeader from "./ChatHeader/ChatHeader";
 import io from "socket.io-client";
 import Sidepanel from "./Sidepanel/Sidepanel";
-function Chats({ User }) {
+function Chats({ User, UserProfileURL }) {
   const [socket, setSocket] = useState(null);
   const [Groups, setGroups] = useState([]);
   const [Chats, setChats] = useState([]);
@@ -13,6 +13,7 @@ function Chats({ User }) {
 
   const [SelectedChat, setSelectedChat] = useState("");
   const [NewChat, setNewChat] = useState("");
+  const [ChatMessages, setChatMessages] = useState([]);
   useEffect(() => {
     async function GetGroups() {
       const response = await axios.get("http://localhost:7000/groups");
@@ -64,11 +65,19 @@ function Chats({ User }) {
             setSelectedChat={setSelectedChat}
             NewChat={NewChat}
             setNewChat={setNewChat}
+            UserProfileURL={UserProfileURL}
+            setChatMessages={setChatMessages}
           />
         </div>
         <div className="Chat">
           <ChatHeader SelectedChat={SelectedChat} />
-          <Chat SelectedChat={SelectedChat} User={User} socket={socket} />
+          <Chat
+            SelectedChat={SelectedChat}
+            User={User}
+            socket={socket}
+            ChatMessages={ChatMessages}
+            setChatMessages={setChatMessages}
+          />
         </div>
       </div>
     </div>

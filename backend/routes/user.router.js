@@ -90,7 +90,7 @@ router.get("/:id", async (req, res) => {
   const UserLink = req.params.id.split("-");
   const UserInfo = await User.findById(
     UserLink[2],
-    "groups projects name lastname email"
+    "groups projects name lastname email ProfileImg"
   );
   if (!UserInfo) {
     return res.status(400).json({ msg: " This user dont exists" });
@@ -130,6 +130,20 @@ router.get("/:id", async (req, res) => {
   res
     .status(200)
     .json({ User: UserInfo, Projects: ProjectsInfo, Groups: UserGroups });
+});
+
+router.post("/image", auth, async (req, res) => {
+  const currentUser = req.user;
+  const UpdatedUser = await User.findByIdAndUpdate(currentUser, {
+    ProfileImg: {
+      name: req.files.image.name,
+      data: req.files.image.data,
+      size: req.files.image.size,
+      mimetype: req.files.image.mimetype,
+    },
+  });
+
+  res.status(200).json({ msg: " Profile Picture Updated !" });
 });
 
 router.get("/account/link", auth, async (req, res) => {

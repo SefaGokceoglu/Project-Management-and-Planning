@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
-
+const fileUpload = require("express-fileupload");
 require("dotenv").config();
 
 const app = express();
@@ -17,6 +17,7 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
+app.use(fileUpload());
 
 // Run Server
 const server = app.listen(port, () => {

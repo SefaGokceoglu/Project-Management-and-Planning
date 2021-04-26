@@ -69,7 +69,6 @@ router.post("/getchat/:chatid", auth, async (req, res) => {
 */
 
 router.post("/:destinationUser", auth, async (req, res) => {
-  const io = req.io;
   const sendedTo = req.params.destinationUser;
   const sendedBy = req.user;
   const { text } = req.body;
@@ -111,7 +110,14 @@ router.post("/:destinationUser", auth, async (req, res) => {
   */
   await newMessage.save();
 
-  res.status(200).json(newMessage);
+  res.status(200).json({
+    chat: alreadyChat,
+    sendedTo: {
+      name: destinationUser.name,
+      lastname: destinationUser.lastname,
+      _id: destinationUser._id,
+    },
+  });
 });
 
 router.delete("/:destinationUser/:id", auth, async (req, res) => {

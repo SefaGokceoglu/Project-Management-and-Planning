@@ -16,7 +16,7 @@
   display: block !important;
 }
 .Create-Project {
-  width: 25vw;
+  width: 500px;
 }
 .fullHeight {
   height: 100vh;
@@ -25,5 +25,4 @@
   width: 7vw;
 }
 .Leave-Project {
-  width: 20vw;
 }

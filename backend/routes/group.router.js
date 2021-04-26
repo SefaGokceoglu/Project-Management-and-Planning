@@ -45,7 +45,7 @@ router.get("/chats", auth, async (req, res) => {
       };
     })
   );
-
+  console.log(Chats);
   res.status(200).json(Chats);
 });
 router.post("/create", auth, async (req, res) => {
@@ -74,10 +74,11 @@ router.post("/create", auth, async (req, res) => {
 router.delete("/:id", auth, async (req, res) => {
   const id = req.params.id;
   const userID = req.user;
-  const deletedGroup = await Group.findByIdAndDelete(id);
+  const deletedGroup = await Group.findById(id);
   if (deletedGroup.createdBy != userID) {
     return res.status(400).json({ msg: "You can not delete this Group !" });
   }
+  await Group.findByIdAndDelete(id);
   const Users = await User.find({ groups: id });
   Users.forEach((user) => {
     user.groups = user.groups.filter((group) => {

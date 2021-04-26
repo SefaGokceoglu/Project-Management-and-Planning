@@ -1,3 +1,56 @@
 .fullheight {
   height: 100vh;
 }
+.User-Container {
+  width: 60vw;
+  margin-bottom: 10vh;
+  padding: 1%;
+}
+.User-Projects {
+  width: 600px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  height: 50%;
+  margin-top: 3%;
+  width: auto;
+}
+.Project-Container {
+  padding: 5%;
+  width: max-content;
+}
+.UserPage-Projects-SimpleBar {
+  height: 25vh;
+}
+.UserPage-Groups-SimpleBar {
+  height: 25vh;
+}
+.UserPage-SimpleBar .simplebar-content {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  max-height: 200px !important;
+}
+.UserPage-SimpleBar .simplebar-content-wrapper {
+  overflow-x: hidden !important;
+}
+.UserPage-SimpleBar .simplebar-horizontal {
+  visibility: hidden !important;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 2.5fr;
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-template-areas: ". .";
+}
+.Account-Image {
+  width: 100%;
+}
+.admin {
+  cursor: pointer;
+}

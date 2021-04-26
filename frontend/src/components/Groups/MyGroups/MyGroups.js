@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import SimpleBar from "simplebar-react";
-import "simplebar/dist/simplebar.min.css";
 import axios from "axios";
 import GroupIcon from "@material-ui/icons/Group";
 import DeleteIcon from "@material-ui/icons/Delete";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
+import LockIcon from "@material-ui/icons/Lock";
+import LockOpenIcon from "@material-ui/icons/LockOpen";
 import CreateIcon from "@material-ui/icons/Create";
 import Popup from "reactjs-popup";
 function MyGroups({
@@ -138,7 +139,7 @@ function MyGroups({
                   }}
                 />
                 <label class="custom-control-label" for="customSwitch1">
-                  Privite Group
+                  Private Group
                 </label>
               </div>
               <div className="d-flex justify-content-around align-items-center">
@@ -186,8 +187,13 @@ function MyGroups({
               >
                 <GroupIcon style={{ color: "rgb(255, 119, 51)" }} />
                 <div>
-                  <p>{group.name}</p>
+                  <p className="font-weight-bold">{group.name}</p>
                 </div>
+                {group.private ? (
+                  <LockIcon style={{ color: "rgb(255, 119, 51)" }} />
+                ) : (
+                  <LockOpenIcon style={{ color: "rgb(255, 119, 51)" }} />
+                )}
                 <button
                   className="btn p-0"
                   style={{ color: "rgb(255, 119, 51)" }}
@@ -202,6 +208,7 @@ function MyGroups({
           })
         ) : (
           AdminGroups.map((group) => {
+            console.log(group);
             return (
               <div
                 key={group._id}
@@ -209,8 +216,13 @@ function MyGroups({
               >
                 <GroupIcon style={{ color: "rgb(255, 119, 51)" }} />
                 <div>
-                  <p>{group.name}</p>
+                  <p className="font-weight-bold">{group.name}</p>
                 </div>
+                {group.private ? (
+                  <LockIcon style={{ color: "rgb(255, 119, 51)" }} />
+                ) : (
+                  <LockOpenIcon style={{ color: "rgb(255, 119, 51)" }} />
+                )}
                 <Popup
                   trigger={
                     <button className="btn">

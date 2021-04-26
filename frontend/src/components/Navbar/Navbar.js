@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import axios from "axios";
 import "./Navbar.css";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-function Navbar({ User, setUser }) {
+function Navbar({ User, setUser, UserProfileURL }) {
   const [AccountLink, setAccountLink] = useState("");
   const LogoutHandler = async (e) => {
     e.preventDefault();
@@ -12,19 +12,6 @@ function Navbar({ User, setUser }) {
     sessionStorage.clear();
     window.location.assign("/");
   };
-
-  useEffect(() => {
-    async function GetUserLink() {
-      const response = await axios.get(
-        "http://localhost:7000/users/account/link"
-      );
-
-      if (response && response.data) {
-        setAccountLink(response.data);
-      }
-    }
-    if (User) GetUserLink();
-  }, [User]);
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -149,7 +136,7 @@ function Navbar({ User, setUser }) {
                   <NavLink
                     className="dropdown-item bg-secondary"
                     exact
-                    to={AccountLink}
+                    to={UserProfileURL}
                   >
                     Account
                   </NavLink>

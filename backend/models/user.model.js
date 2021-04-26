@@ -36,6 +36,12 @@ const UserSchema = new Schema(
         ref: "projects",
       },
     ],
+    ProfileImg: {
+      name: { type: String },
+      data: { type: Buffer },
+      size: { type: Number },
+      mimetype: { type: String },
+    },
   },
   {
     timestamps: true,

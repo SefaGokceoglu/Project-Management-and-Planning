@@ -2,13 +2,13 @@ import axios from "axios";
 import React, { useEffect, useState, useRef } from "react";
 import ChatMessage from "../ChatMessage/ChatMessage";
 
-function Chat({ socket, User, SelectedChat, SelectedGroup }) {
+function Chat({ socket, User, SelectedChat, ChatMessages, setChatMessages }) {
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-  const [ChatMessages, setChatMessages] = useState([]);
+  //const [ChatMessages, setChatMessages] = useState([]);
   const [RecievedMessage, setRecievedMessage] = useState("");
   const [CurrentUser, setCurrentUser] = useState("");
   const [dataRecieved, setdataRecieved] = useState(false);

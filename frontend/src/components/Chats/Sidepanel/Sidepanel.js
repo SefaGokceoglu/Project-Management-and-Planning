@@ -14,14 +14,13 @@ function Sidepanel({
   User,
   Chats,
   People,
-  setSelectedGroup,
   setSelectedChat,
   NewChat,
   setNewChat,
+  UserProfileURL,
+  setChatMessages,
 }) {
   const [SayHi, setSayHi] = useState("");
-  const [AccountLink, setAccountLink] = useState("-");
-  let link = "";
   const SendMessageHandler = async (sendedToID) => {
     const response = await axios.post(
       "http://localhost:7000/message/" + sendedToID,
@@ -29,23 +28,16 @@ function Sidepanel({
     );
 
     if (response && response.data) {
+      setSelectedChat({
+        name:
+          response.data.sendedTo.name + " " + response.data.sendedTo.lastname,
+        sendedTo_ID: response.data.sendedTo._id,
+        ChatID: response.data.chat._id,
+      });
       setSayHi("");
       setNewChat(response.data);
     }
   };
-  useEffect(() => {
-    async function GetUserLink() {
-      const response = await axios.get(
-        "http://localhost:7000/users/account/link"
-      );
-
-      if (response && response.data) {
-        console.log(response.data);
-        setAccountLink(response.data);
-      }
-    }
-    GetUserLink();
-  }, []);
   return (
     <div className="Groups">
       <div className="d-flex align-items-center justify-content-between p-3 border-bottom border-dark ">
@@ -56,11 +48,10 @@ function Sidepanel({
           />
           <h3 className="m-0">{User}</h3>
         </div>
-        {AccountLink !== "" ? (
-          <Link to={AccountLink} className="mr-3">
-            <AccountCircleIcon fontSize="large" />
-          </Link>
-        ) : null}
+
+        <Link to={UserProfileURL} className="mr-3">
+          <AccountCircleIcon fontSize="large" />
+        </Link>
       </div>
       <div className="accordion" id="accordionGroups">
         <div className="card bg-secondary">
@@ -100,6 +91,7 @@ function Sidepanel({
                       className="pl-5 d-flex justify-content-start align-items-center shadow"
                       key={group._id}
                       onClick={() => {
+                        setChatMessages([]);
                         setSelectedChat({
                           name: group.name,
                           GroupID: group._id,
@@ -153,6 +145,7 @@ function Sidepanel({
                     key={chat._id}
                     className="Chat-Select shadow mb-1"
                     onClick={() => {
+                      setChatMessages([]);
                       setSelectedChat({
                         name: chat.sendedTo.name + " " + chat.sendedTo.lastname,
                         sendedTo_ID: chat.sendedTo._id,
