@@ -48,6 +48,26 @@ const ProjectSchema = new Schema(
         },
       },
     ],
+    Board: {
+      Todo: [
+        {
+          label: { type: String, required: true },
+          description: { type: String },
+        },
+      ],
+      InProgress: [
+        {
+          label: { type: String, required: true },
+          description: { type: String },
+        },
+      ],
+      Done: [
+        {
+          label: { type: String, required: true },
+          description: { type: String },
+        },
+      ],
+    },
   },
   {
     timestamps: true,

@@ -112,6 +112,7 @@ router.post("/:destinationUser", auth, async (req, res) => {
 
   res.status(200).json({
     chat: alreadyChat,
+    newMessage,
     sendedTo: {
       name: destinationUser.name,
       lastname: destinationUser.lastname,

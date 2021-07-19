@@ -13,8 +13,8 @@ function ChatMessage({ SelectedChat, socket, setRecievedMessage }) {
       );
 
       if (response && response.data) {
-        setRecievedMessage(response.data);
-        socket.emit("SendMessage", response.data);
+        setRecievedMessage(response.data.newMessage);
+        socket.emit("SendMessage", response.data.newMessage);
 
         setMessage("");
       }

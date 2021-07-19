@@ -147,4 +147,16 @@ router.patch("/save/:id", auth, async (req, res) => {
   res.status(200).json(Tasks);
 });
 
+router.patch("/update/:id", auth, async (req, res) => {
+  const { Data } = req.body;
+  const ProjectID = req.params.id;
+
+  await Project.findByIdAndUpdate(ProjectID, {
+    Board: Data,
+  });
+
+  const UpdatedProject = await Project.findById(ProjectID);
+  res.status(200).json(UpdatedProject.Board);
+});
+
 module.exports = router;

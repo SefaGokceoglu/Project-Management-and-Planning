@@ -209,7 +209,17 @@ function Sidepanel({
                         className="pl-2 mt-2 d-flex justify-content-start align-items-center "
                         key={person._id}
                       >
-                        <PersonIcon className="mr-3" />
+                        <Link
+                          to={
+                            person.name.toLowerCase() +
+                            "-" +
+                            person.lastname.toLowerCase() +
+                            "-" +
+                            person._id
+                          }
+                        >
+                          <PersonIcon className="mr-3" />
+                        </Link>
                         <h4 className="mr-2">{person.name}</h4>
                         <h4>{person.lastname}</h4>
                         <Popup

@@ -1,0 +1,17 @@
+.kanban-grid-container {
+  margin: 2% 10% 0 10%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-template-areas: ". . .";
+}
+.add-to-table {
+  width: 500px;
+}
+.add-to-table button {
+  width: 150px;
+}
+.bg-orange {
+  background-color: #ff7733;
+}

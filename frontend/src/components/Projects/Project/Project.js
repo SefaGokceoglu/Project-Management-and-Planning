@@ -5,22 +5,22 @@ import TaskForm from "../TaskForm/TaskForm";
 import SaveIcon from "@material-ui/icons/Save";
 import ReplayIcon from "@material-ui/icons/Replay";
 import DeleteIcon from "@material-ui/icons/Delete";
-function Project({ SelectedProject }) {
+import KanbanBoard from "../KanbanBoard/KanbanBoard";
+const DataSchema = [
+  { type: "string", label: "Task ID" },
+  { type: "string", label: "Task Name" },
+  { type: "string", label: "Resource" },
+  { type: "date", label: "Start Date" },
+  { type: "date", label: "End Date" },
+  { type: "number", label: "Duration" },
+  { type: "number", label: "Percent Complete" },
+  { type: "string", label: "Dependencies" },
+];
+function Project({ SelectedProject, ProjectContent }) {
   const [Loading, setLoading] = useState(true);
   const [Project, setProject] = useState("");
 
   const [UpdateTask, setUpdateTask] = useState("");
-
-  const DataSchema = [
-    { type: "string", label: "Task ID" },
-    { type: "string", label: "Task Name" },
-    { type: "string", label: "Resource" },
-    { type: "date", label: "Start Date" },
-    { type: "date", label: "End Date" },
-    { type: "number", label: "Duration" },
-    { type: "number", label: "Percent Complete" },
-    { type: "string", label: "Dependencies" },
-  ];
   const [Data, setData] = useState([]);
   useEffect(async () => {
     const response = await axios.post(
@@ -28,6 +28,7 @@ function Project({ SelectedProject }) {
     );
 
     if (response && response.data) {
+      console.log(response.data);
       setProject(response.data);
       const GetData = response.data.SelectedProject.data;
       const DataFromDb = GetData.map((data) => {
@@ -73,93 +74,90 @@ function Project({ SelectedProject }) {
       </div>
     );
   } else {
-    return (
-      <div className="Container bg-secondary d-flex justify-content-center align-items-center">
-        <div className="Chart-Container d-flex justify-content-center align-items-center bg-secondary ">
-          {Data.length > 0 ? (
-            <Chart
-              height={`${Data.length * 200}px`}
-              width={"90%"}
-              chartType="Gantt"
-              loader={
-                <div className="d-flex justify-content-center">
-                  <div className="spinner-border" role="status">
-                    <span className="sr-only">Loading...</span>
+    if (ProjectContent == 1) {
+      return (
+        <div className="Container bg-secondary d-flex justify-content-center align-items-center">
+          <div className="Chart-Container d-flex justify-content-center align-items-center bg-white rounded">
+            {Data.length > 0 ? (
+              <Chart
+                height={`400px`}
+                width={"90%"}
+                chartType="Gantt"
+                loader={
+                  <div className="d-flex justify-content-center">
+                    <div className="spinner-border" role="status">
+                      <span className="sr-only">Loading...</span>
+                    </div>
                   </div>
-                </div>
-              }
-              options={{
-                backgroundColor: {
-                  fill: "#6c757d",
-                },
-                gantt: {
-                  innerGridHorizLine: {
-                    strokeWidth: 0,
+                }
+                options={{
+                  backgroundColor: {
+                    fill: "white",
                   },
-                  innerGridDarkTrack: {
-                    fill: "#6c757d",
+                  gantt: {
+                    innerGridHorizLine: {
+                      strokeWidth: 0,
+                    },
                   },
-                  innerGridTrack: {
-                    fill: "#6c757d",
-                  },
-                },
-              }}
-              data={[DataSchema, ...Data]}
-            />
-          ) : (
-            <div className="d-flex justify-content-center">
-              <div
-                className="shadow rounded p-4"
-                style={{ color: "rgb(255, 119, 51)" }}
-              >
-                <h2>This Project Doesnt Have Tasks Yet </h2>
-                <h4> Add Task From Task Form</h4>
-              </div>
-            </div>
-          )}
-        </div>
-        <div className="d-flex align-items-center justify-content-around p-5 bg-secondary">
-          <TaskForm
-            Loading={Loading}
-            Data={Data}
-            setData={setData}
-            Team={Project.Team}
-            Project={Project.SelectedProject}
-          />
-          <div className="Button-Container bg-secondary">
-            <div className="m-5">
-              <button
-                className="Project-Data-Button btn btn-success d-flex justify-content-center align-items-center"
-                onClick={SaveData}
-              >
-                <SaveIcon className="m-2" />
-                <p className="m-0">Save Chart</p>
-              </button>
-            </div>
-            <div className="m-5">
-              <button
-                className="Project-Data-Button btn btn-warning d-flex justify-content-center align-items-center"
-                onClick={Undo}
-              >
-                <ReplayIcon className="m-2" />
-                <p className="m-0">Undo Last</p>
-              </button>
-            </div>
-            <div className="m-5">
-              <button
-                className="Project-Data-Button btn btn-danger d-flex justify-content-center align-items-center"
-                onClick={() => {
-                  setData([]);
                 }}
-              >
-                <DeleteIcon className="m-2" />
-                <p className="m-0">Delete Chart</p>
-              </button>
+                data={[DataSchema, ...Data]}
+              />
+            ) : (
+              <div className="d-flex justify-content-center align-items-center bg-white">
+                <div className=" p-4" style={{ color: "rgb(255, 119, 51)" }}>
+                  <h2>This Project Doesnt Have Tasks Yet </h2>
+                  <h4> Add Task From Task Form</h4>
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="d-flex align-items-center justify-content-around mt-5 p-5 ">
+            <TaskForm
+              Loading={Loading}
+              Data={Data}
+              setData={setData}
+              Team={Project.Team}
+              Project={Project.SelectedProject}
+            />
+            <div className="Button-Container bg-secondary">
+              <div className="m-5">
+                <button
+                  className="Project-Data-Button btn btn-success d-flex justify-content-center align-items-center"
+                  onClick={SaveData}
+                >
+                  <SaveIcon className="m-2" />
+                  <p className="m-0">Save Chart</p>
+                </button>
+              </div>
+              <div className="m-5">
+                <button
+                  className="Project-Data-Button btn btn-warning d-flex justify-content-center align-items-center"
+                  onClick={Undo}
+                >
+                  <ReplayIcon className="m-2" />
+                  <p className="m-0">Undo Last</p>
+                </button>
+              </div>
+              <div className="m-5">
+                <button
+                  className="Project-Data-Button btn btn-danger d-flex justify-content-center align-items-center"
+                  onClick={() => {
+                    setData([]);
+                  }}
+                >
+                  <DeleteIcon className="m-2" />
+                  <p className="m-0">Delete Chart</p>
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return (
+        <KanbanBoard Project={Project} SelectedProject={SelectedProject} />
+      );
+    }
   }
 }
 export default Project;

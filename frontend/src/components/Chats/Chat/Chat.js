@@ -40,6 +40,9 @@ function Chat({ socket, User, SelectedChat, ChatMessages, setChatMessages }) {
     } else if (SelectedChat.GroupID) {
       GetGroupMessages();
     }
+    return () => {
+      setChatMessages([]);
+    };
   }, [SelectedChat]);
 
   useEffect(() => {

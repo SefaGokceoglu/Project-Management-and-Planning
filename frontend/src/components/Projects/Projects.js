@@ -18,6 +18,8 @@ function Projects() {
   const [startAt, setstartAt] = useState(new Date());
   const [endAt, setendAt] = useState(new Date());
   const [ProjectKey, setProjectKey] = useState("");
+
+  const [ProjectContent, setProjectContent] = useState(1);
   useEffect(async () => {
     const response = await axios.get("http://localhost:7000/project");
 
@@ -27,6 +29,7 @@ function Projects() {
   }, []);
   const SelectProjectHandler = (e) => {
     setSelectedProject(e.target.value);
+    setProjectContent(1);
   };
 
   const CreateProject = async () => {
@@ -98,6 +101,34 @@ function Projects() {
               );
             })}
           </select>
+          {SelectedProject ? (
+            <div className="mt-4 d-flex align-items-center justify-content-start border-bottom">
+              <div
+                onClick={() => {
+                  setProjectContent(1);
+                }}
+                className={
+                  ProjectContent === 1
+                    ? "content-selection w-50 rounded content-selection-active"
+                    : "content-selection w-50 rounded"
+                }
+              >
+                <h6 className="m-1 text-center">Gantt Chart</h6>
+              </div>
+              <div
+                onClick={() => {
+                  setProjectContent(2);
+                }}
+                className={
+                  ProjectContent === 2
+                    ? "content-selection w-50 rounded content-selection-active"
+                    : "content-selection w-50 rounded"
+                }
+              >
+                <h6 className="m-1 text-center">Kanban Board</h6>
+              </div>
+            </div>
+          ) : null}
         </div>
         <div className="d-flex justify-content-between align bg-dark rounded shadow">
           <Popup
@@ -322,7 +353,12 @@ function Projects() {
           ) : null}
         </div>
       </div>
-      {SelectedProject ? <Project SelectedProject={SelectedProject} /> : null}
+      {SelectedProject ? (
+        <Project
+          SelectedProject={SelectedProject}
+          ProjectContent={ProjectContent}
+        />
+      ) : null}
     </div>
   );
 }

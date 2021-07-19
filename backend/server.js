@@ -11,10 +11,12 @@ const port = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000", "http://localhost:8081"],
+
     credentials: true,
   })
 );
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(fileUpload());

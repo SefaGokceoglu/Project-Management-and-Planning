@@ -44,6 +44,7 @@ function Chats({ User, UserProfileURL }) {
 
       if (response && response.data) {
         setPeople(response.data);
+        console.log(response.data);
       }
     }
     GetUsers();

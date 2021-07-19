@@ -81,7 +81,6 @@ function UserPage({ UserProfileURL }) {
         <div className="fullheight bg-secondary d-flex justify-content-center align-items-center">
           <div className="User-Container bg-dark  rounded grid-container text-white">
             <div className="d-flex flex-column ">
-              <p>Click On İmage To Change Pofile İmage</p>
               {UserInfo.User.ProfileImg ? (
                 <img
                   className={"Account-Image " + admin}
